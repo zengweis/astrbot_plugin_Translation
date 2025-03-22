@@ -2,8 +2,8 @@
 
 ### 配置文件
 文件里面的
-APPID和SECRET_KEY免费调用量为100万字符/月，
-如果出现费用不足请自行去https://fanyi-api.baidu.com/api/trans/product/desktop
+APPID和SECRET_KEY有免费调用量100万字符/月，
+如果达到上限请自行去https://fanyi-api.baidu.com/api/trans/product/desktop
 注册账号后填入对应信息
 ### 调用方法
 /fy <目标语种> <翻译的内容>
