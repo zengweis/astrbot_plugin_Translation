@@ -69,6 +69,9 @@ class MyPlugin(Star):
                 ]
                 for i in range(0, len(supported_languages), 3):
                     row = supported_languages[i:i + 3]
+                    # 确保 row 有三个元素
+                    while len(row) < 3:
+                        row.append("")
                     help_text += "{:<12}{:<12}{:<12}\n".format(*row)
                 yield event.plain_result(help_text)
                 return
