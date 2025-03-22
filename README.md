@@ -4,6 +4,12 @@ AstrBot 插件，使用百度翻译
 
 /fy <目标语种> <翻译的内容>
 
+# 配置文件
+文件里面的
+APPID和SECRET_KEY免费调用量为100万字符/月，如果出现费用不足请自行去https://fanyi-api.baidu.com/api/trans/product/desktop注册账号后填入对应信息
+
+
+
 ## 目标语种支持
 
 
