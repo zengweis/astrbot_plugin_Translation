@@ -7,8 +7,8 @@ from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
 
 # 请替换为你自己的 APPID 和密钥
-APPID = 'your_appid'
-SECRET_KEY = 'your_secret_key'
+APPID = '20250323002312250'
+SECRET_KEY = 'LY5TlYCfp_li3HPduH9g'
 
 # 常见语种代码映射
 LANGUAGE_CODE_MAP = {
