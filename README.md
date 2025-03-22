@@ -1,9 +1,5 @@
-# helloworld
+# 翻译插件
 
-AstrBot 插件模板
+AstrBot 插件，使用百度翻译
 
-A template plugin for AstrBot plugin feature
 
-# 支持
-
-[帮助文档](https://astrbot.app)
