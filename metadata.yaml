@@ -1,6 +1,6 @@
 name: Translation # 这是你的插件的唯一识别名。
 desc: 这是 AstrBot 的翻译插件，使用百度翻译api # 插件简短描述
 help: 输入 /fy <目标语种> <翻译的内容> 调用翻译功能，/fy help查看支持目标语种。 # 插件的帮助信息
-version: v1.0 # 插件版本号。格式：v1.1.1 或者 v1.1
+version: v1.0.1 # 插件版本号。格式：v1.1.1 或者 v1.1
 author: zengwei # 作者
 repo: https://github.com/zengweis/astrbot_plugin_Translation # 插件的仓库地址
