@@ -69,7 +69,6 @@ class MyPlugin(Star):
                 ]
                 for i in range(0, len(supported_languages), 3):
                     row = supported_languages[i:i + 3]
-                    # 确保 row 有三个元素
                     while len(row) < 3:
                         row.append("")
                     help_text += "{:<12}{:<12}{:<12}\n".format(*row)
@@ -112,6 +111,3 @@ class MyPlugin(Star):
 
         except Exception as e:
             yield event.plain_result(f"解析输入或调用 API 时出错: {str(e)}")
-
-    async def terminate(self):
-        '''可选择实现 terminate 函数，当插件被卸载/停用时会调用。'''
