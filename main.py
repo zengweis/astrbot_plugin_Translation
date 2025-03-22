@@ -96,3 +96,15 @@ class MyPlugin(Star):
 
     async def terminate(self):
         '''可选择实现 terminate 函数，当插件被卸载/停用时会调用。'''
+    @filter.command("fy help")
+    yield event.plain_result(f"目标语种可选择：中文	      	英语	
+粤语	       	文言文	    日语	
+韩语	        法语	      西班牙语	
+泰语		      阿拉伯语	 	俄语	
+葡萄牙语	    德语	    	意大利语	
+希腊语		    荷兰语	  	波兰语	
+保加利亚语  	爱沙尼亚语	丹麦语	
+芬兰语	    	捷克语     罗马尼亚语	
+斯洛文尼亚语	  瑞典语	    匈牙利语
+繁体中文		  越南语	 ")
+        
