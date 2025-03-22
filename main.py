@@ -53,8 +53,24 @@ class MyPlugin(Star):
 
         try:
             parts = message_str.split(' ', 2)
-            if len(parts) < 3:
-                yield event.plain_result(f"格式错误，请使用 /fy <目标语种> <翻译的内容>")
+            if len(parts) < 2:
+                yield event.plain_result(f"格式错误，请使用 /fy <目标语种> <翻译的内容> 或 /fy help 查看帮助。")
+                return
+            if parts[1] == "help":
+                help_text = "翻译插件使用说明：\n"
+                help_text += "/fy <目标语种> <翻译的内容>\n\n"
+                help_text += "目标语种支持：\n"
+                supported_languages = [
+                    "中文", "英语", "粤语", "文言文", "日语", "韩语", "法语", "西班牙语",
+                    "泰语", "阿拉伯语", "俄语", "葡萄牙语", "德语", "意大利语",
+                    "希腊语", "荷兰语", "波兰语", "保加利亚语", "爱沙尼亚语", "丹麦语",
+                    "芬兰语", "捷克语", "罗马尼亚语", "斯洛文尼亚语", "瑞典语", "匈牙利语",
+                    "繁体中文", "越南语"
+                ]
+                for i in range(0, len(supported_languages), 3):
+                    row = supported_languages[i:i + 3]
+                    help_text += "{:<12}{:<12}{:<12}\n".format(*row)
+                yield event.plain_result(help_text)
                 return
             target_language_name = parts[1]
             text_to_translate = parts[2]
@@ -96,4 +112,3 @@ class MyPlugin(Star):
 
     async def terminate(self):
         '''可选择实现 terminate 函数，当插件被卸载/停用时会调用。'''
-        
