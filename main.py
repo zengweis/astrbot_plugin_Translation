@@ -40,7 +40,7 @@ LANGUAGE_CODE_MAP = {
     "越南语": "vie"
 }
 
-@register("TranslationPlugin", "YourName", "一个简单的翻译插件", "1.0.0")
+@register("TranslationPlugin", "YourName", "一个简单的翻译插件", "1.0.1")
 class MyPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
