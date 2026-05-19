@@ -1,14 +1,49 @@
 import requests
 import hashlib
 import urllib.parse
+import os
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
 
-APPID = '20250323002312250'
-SECRET_KEY = 'LY5TlYCfp_li3HPduH9g'
+# ==================== 配置加载 ====================
+def _load_config():
+    """从 config.yaml 或环境变量加载百度翻译 API 密钥（优先级：配置文件 > 环境变量）"""
+    config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.yaml')
+    
+    if os.path.exists(config_path):
+        try:
+            import yaml
+            with open(config_path, 'r', encoding='utf-8') as f:
+                config = yaml.safe_load(f) or {}
+            appid = config.get('APPID', '')
+            secret = config.get('SECRET_KEY', '')
+            if appid and secret and appid != 'your_appid_here':
+                logger.info("已从 config.yaml 加载百度翻译 API 配置")
+                return appid, secret
+        except ImportError:
+            logger.warning("未安装 PyYAML，尝试从环境变量读取配置...")
+        except Exception as e:
+            logger.warning(f"读取 config.yaml 失败: {e}，尝试从环境变量读取...")
+    
+    # 回退到环境变量
+    appid = os.environ.get('BAIDU_APPID', '')
+    secret = os.environ.get('BAIDU_SECRET_KEY', '')
+    if appid and secret:
+        logger.info("已从环境变量加载百度翻译 API 配置")
+        return appid, secret
+    
+    logger.error(
+        "❌ 未找到百度翻译 API 配置！\n"
+        "请执行以下任一操作：\n"
+        "  1. 复制 config.example.yaml 为 config.yaml 并填入密钥\n"
+        "  2. 设置环境变量 BAIDU_APPID 和 BAIDU_SECRET_KEY"
+    )
+    return '', ''
 
-# 语种代码映射表
+APPID, SECRET_KEY = _load_config()
+
+# ==================== 语种映射表 ====================
 LANGUAGE_CODE_MAP = {
     "中文": "zh",
     "英语": "en",
@@ -40,7 +75,7 @@ LANGUAGE_CODE_MAP = {
     "越南语": "vie"
 }
 
-@register("TranslationPlugin", "YourName", "一个简单的翻译插件", "1.0.1")
+@register("TranslationPlugin", "zengwei", "百度翻译插件 - 支持28种语言互译", "1.0.2")
 class MyPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
@@ -54,8 +89,11 @@ class MyPlugin(Star):
         try:
             parts = message_str.split(' ', 2)
             if len(parts) < 2:
-                yield event.plain_result(f"格式错误，请使用 /fy <目标语种> <翻译的内容> 或 /fy help 查看帮助。")
+                yield event.plain_result(
+                    "格式错误，请使用 /fy <目标语种> <翻译的内容> 或 /fy help 查看帮助。"
+                )
                 return
+
             if parts[1] == "help":
                 help_text = "翻译插件使用说明：\n"
                 help_text += "/fy <目标语种> <翻译的内容>\n\n"
@@ -74,8 +112,16 @@ class MyPlugin(Star):
                     help_text += "{:<12}{:<12}{:<12}\n".format(*row)
                 yield event.plain_result(help_text)
                 return
+
             target_language_name = parts[1]
             text_to_translate = parts[2]
+
+            # 检查密钥是否已配置
+            if not APPID or not SECRET_KEY:
+                yield event.plain_result(
+                    "❌ 翻译功能未配置！\n请管理员将 config.example.yaml 复制为 config.yaml 并填入百度翻译 API 密钥。"
+                )
+                return
 
             # 将目标语种名称转换为语种代码
             target_language = LANGUAGE_CODE_MAP.get(target_language_name)
@@ -84,8 +130,9 @@ class MyPlugin(Star):
                 return
 
             # 调用百度翻译 API
+            import random
             base_url = 'http://api.fanyi.baidu.com/api/trans/vip/translate'
-            salt = '1435660288'
+            salt = str(random.randint(10000, 99999))
             sign = APPID + text_to_translate + salt + SECRET_KEY
             sign = hashlib.md5(sign.encode()).hexdigest()
 

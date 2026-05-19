@@ -1,0 +1,6 @@
+# 百度翻译 API 配置
+# 请将此文件重命名为 config.yaml 并填入你的密钥
+# 免费申请地址: https://fanyi-api.baidu.com/api/trans/product/desktop
+
+APPID: "your_appid_here"
+SECRET_KEY: "your_secret_key_here"

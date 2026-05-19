@@ -1,0 +1,8 @@
+# 配置文件（包含敏感密钥，不要提交！）
+config.yaml
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
